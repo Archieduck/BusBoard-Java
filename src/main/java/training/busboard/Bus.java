@@ -1,14 +1,29 @@
 package training.busboard;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Bus {
     private int timeToStation;
-    private String busNumber;
+    private String lineId;
     private String destinationName;
 
 
-    public void setBus(int timeToStation, String busNumber, String destinationName) {
+    public void Bus() {
+        // this.timeToStation = timeToStation;
+        // this.lineId = lineId;
+        // this.destinationName = destinationName;
+    }
+
+    public void setTimeToStation(int timeToStation) {
         this.timeToStation = timeToStation;
-        this.busNumber = busNumber;
+    }
+
+    public void setLineId(String lineId) {
+        this.lineId = lineId;
+    }
+
+    public void setDestinationName(String destinationName){
         this.destinationName = destinationName;
     }
 
@@ -16,8 +31,8 @@ public class Bus {
         return this.timeToStation;
     }
 
-    public String getBusNumber() {
-        return this.busNumber;
+    public String getLineId() {
+        return this.lineId;
     }
 
     public String getDestinationName(){
