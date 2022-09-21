@@ -19,12 +19,20 @@ import java.util.List;
 
 public class Main {
     public static void main(String args[]) {
-        Client client = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
 
         String busStopCode;
 
+        System.out.println("Enter bus stop code: ");
         TakeUserInPut userI = new TakeUserInPut();
         busStopCode = userI.takeUserInput();
+        getNextFive(busStopCode);
+    
+    }
+
+
+
+    public static void getNextFive(String busStopCode) {
+        Client client = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
 
         List<Bus> newBusTimes = client
                 .target("https://api.tfl.gov.uk/StopPoint/" + busStopCode + "/Arrivals?app_id=be4b299f49ba4450b6404938f09423cb&app_key=e26ed466765b411d804f501b49df1a6c")
@@ -41,10 +49,12 @@ public class Main {
         
         nextFiveBus.forEach((bus) -> System.out.println(bus.getLineId() + " -- " + bus.getTimeToStation()));
 
-
-    
     }
 
+    public static void getPostcode(){
+
+
+    }
 
 
 }

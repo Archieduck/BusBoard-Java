@@ -12,7 +12,7 @@ public class TakeUserInPut {
     public String takeUserInput(){
         
         String input = sc.nextLine();
-        System.out.println("Here");
+        
         return input;
     }
 }
