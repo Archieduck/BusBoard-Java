@@ -20,15 +20,15 @@ import java.util.List;
 public class Main {
     public static void main(String args[]) {
 
-        String busStopCode;
+        String postcode;
 
-        System.out.println("Enter bus stop code: ");
+        System.out.println("Enter postcode: ");//postcode
         TakeUserInPut userI = new TakeUserInPut();
-        busStopCode = userI.takeUserInput();
-        getNextFive(busStopCode);
+        postcode = userI.takeUserInput();
+        getPostcode(postcode);
+        //getNextFive(busStopCode);
     
     }
-
 
 
     public static void getNextFive(String busStopCode) {
@@ -46,15 +46,39 @@ public class Main {
         .sorted(Comparator.comparing(Bus::getTimeToStation))
         .limit(5)
         .collect(Collectors.toList());
+
+
+        // System.out.println(newBusTimes.getStationName());
+        nextFiveBus.forEach((bus) -> System.out.println(bus.getLineId() + " -- " + (bus.getTimeToStation()/60)));
+
+    }
+
+    public static void getPostcode(String postcode){
+        Client client = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
+
+        Postcode postcodeInfo = new Postcode();
+        postcodeInfo = client
+                .target("http://api.postcodes.io/postcodes/" + postcode)
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .get(new GenericType<Postcode>() {});
+
+        Double retrievedLatitude = postcodeInfo.getResult().getLatitude();
+        Double retrievedLongitude = postcodeInfo.getResult().getLongitude();
         
-        nextFiveBus.forEach((bus) -> System.out.println(bus.getLineId() + " -- " + bus.getTimeToStation()));
+        //gets the whole object from the tfl API
+        GetLocationObject locationObject = client
+                .target("https://api.tfl.gov.uk/StopPoint/?lat=" + retrievedLatitude + "&lon=" + retrievedLongitude + "&stopTypes=NaptanPublicBusCoachTram&radius=200&modes=bus")
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .get(new GenericType<GetLocationObject>() {});
 
-    }
+        //list of stoppoints within the set radius
+        List<StopPoints> stopPointsInRadius = locationObject.getStopPoints()
+        .stream()
+        .limit(2)
+        .collect(Collectors.toList());
+        //to get the stop ID for each stoppoint
+       stopPointsInRadius.forEach((stop) -> {System.out.println(stop.getIndicator()); getNextFive(stop.getNaptanID());} );
+       
 
-    public static void getPostcode(){
-
-
-    }
-
-
+     }
 }

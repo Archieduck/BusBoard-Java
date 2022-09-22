@@ -7,6 +7,7 @@ public class Bus {
     private int timeToStation;
     private String lineId;
     private String destinationName;
+    private String stationName;
 
 
     public void Bus() {
@@ -27,6 +28,10 @@ public class Bus {
         this.destinationName = destinationName;
     }
 
+    public void setStationName(String stationName){
+        this.stationName = stationName;
+    }
+
     public int getTimeToStation() {
         return this.timeToStation;
     }
@@ -37,6 +42,10 @@ public class Bus {
 
     public String getDestinationName(){
         return this.destinationName;
+    }
+
+    public String getStationName(){
+        return this.stationName;
     }
 
 }
