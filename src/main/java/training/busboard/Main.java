@@ -49,7 +49,7 @@ public class Main {
 
 
         // System.out.println(newBusTimes.getStationName());
-        nextFiveBus.forEach((bus) -> System.out.println(bus.getLineId() + " -- " + (bus.getTimeToStation()/60)));
+        nextFiveBus.forEach((bus) -> System.out.println(bus.getLineId() + " -- " + (bus.getTimeToStation())));
 
     }
 
